@@ -159,7 +159,7 @@ def get_assignment(request, crowd_name):
 
     # Load the template and render it.
     template = get_scoped_template(crowd_name, current_task.task_type + '.html',
-                            context=context)
+                                   context=context)
     return HttpResponse(template.render(RequestContext(request, context)))
 
 
@@ -182,7 +182,6 @@ def get_scoped_template(crowd_name, template_name, context=None):
 @require_POST
 @csrf_exempt
 def post_response(request, crowd_name):
-
     # get the interface implementation from the crowd name.
     interface, model_spec = CrowdRegistry.get_registry_entry(crowd_name)
 
@@ -216,9 +215,9 @@ def post_response(request, crowd_name):
     # Check if this task has been finished
     # If we've gotten too many responses, ignore.
     if (not current_task.is_complete
-        and current_task.responses.count() >= current_task.num_assignments):
+            and current_task.responses.count() >= current_task.num_assignments):
         current_task.is_complete = True
         current_task.save()
         gather_answer.delay(current_task.task_id, model_spec)
 
-    return HttpResponse('ok')  # AJAX call succeded.
+    return HttpResponse('ok')  # AJAX call succeeded.
