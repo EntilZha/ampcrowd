@@ -150,3 +150,38 @@ class CrowdModelSpecification(object):
         # responses pertain to a task
         self.add_rel(self.response_model, self.task_model, models.ForeignKey,
                      'task', 'responses')
+
+
+class TemplateResource(models.Model):
+    name = models.CharField(max_length=200)
+    content = models.TextField()
+    direct_dependencies = models.ManyToManyField('self', symmetrical=False, related_name="upstream_dependencies")
+    direct_requirements = models.ManyToManyField('self', symmetrical=False, related_name="upstream_requirements")
+
+    @property
+    def dependencies(self):
+        query_set = list(self.direct_dependencies.all())
+        all_dependencies = set(query_set)
+        current_dependencies = list(query_set)
+        while True:
+            prior_size = len(all_dependencies)
+            new_dependencies = set()
+            for dep in current_dependencies:
+                deps = set(dep.direct_dependencies.all())
+                new_dependencies = new_dependencies.union(deps)
+                all_dependencies = all_dependencies.union(deps)
+            if prior_size == len(all_dependencies):
+                break
+            else:
+                current_dependencies = list(new_dependencies)
+        return all_dependencies
+
+    def __str__(self):
+        return self.name
+
+
+class TaskType(models.Model):
+    name = models.CharField(max_length=200)
+    iterator_template = models.ForeignKey(TemplateResource, related_name='iterator_task')
+    point_template = models.ForeignKey(TemplateResource, related_name='point_task')
+    renderer = models.ForeignKey(TemplateResource, related_name='renderer_task')

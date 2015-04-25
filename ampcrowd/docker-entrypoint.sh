@@ -13,22 +13,24 @@ SSL=0
 FOREGROUND=0
 while getopts "dsf" OPTION
 do
-	case $OPTION in
-		d)
-			DEVELOP=1
-			;;
-		s)
-			SSL=1
-			;;
-		f)
-			FOREGROUND=1
-			;;
+	case "$OPTION" in
+		d) DEVELOP=1;;
+		s) SSL=1;;
+		f) FOREGROUND=1;;
 	esac
 done
 
 export DEVELOP
 export SSL
 export FOREGROUND
+
+ARG1=${@:OPTIND:1}
+
+if [ "$ARG1" = "test" ]
+then
+    (cd ampcrowd && python manage.py test **/tests/)
+    exit
+fi
 
 if [ "$DEVELOP" -eq  "1" ]
 then
