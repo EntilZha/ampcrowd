@@ -176,6 +176,11 @@ class TemplateResource(models.Model):
                 current_dependencies = list(new_dependencies)
         return all_dependencies
 
+    @property
+    def requirements(self):
+        pass
+
+
     def __str__(self):
         return self.name
 
