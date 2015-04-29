@@ -50,7 +50,7 @@ def index(request):
                                 .values('task_type')
                                 .annotate(num_tasks=Count('task_id')))
 
-    task_types = { t['task_type'] :
+    task_types = {t['task_type']:
                    build_context(task_type_map, total_tasks_by_type,
                                  worker_id, task_type_obj=t)
                    for t in incomplete_tasks_by_type }

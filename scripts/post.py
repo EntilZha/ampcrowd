@@ -37,7 +37,7 @@ def send_request(data, crowds, num_requests, use_ssl):
     # Send request
     params = {'data' : json.dumps(data)}
     scheme = 'https' if use_ssl else 'http'
-    url = scheme + '://datascijenkins-0-1.sv2.trulia.com:4040/crowds/%s/tasks/'
+    url = scheme + '://crowd_server:8000/crowds/%s/tasks/'
     for crowd in crowds:
         for i in range(num_requests):
             try:

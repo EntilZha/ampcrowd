@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y postgresql-client
 
 COPY requirements.txt /usr/src/app/
 WORKDIR /usr/src/app
+RUN pip install numpy
 RUN pip install -r requirements.txt
 
 ENV PYTHONUNBUFFERED 1
