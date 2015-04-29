@@ -28,6 +28,13 @@ class AbstractCrowdTaskGroup(models.Model):
     class Meta:
         abstract = True
 
+    @staticmethod
+    def to_json(task_group):
+        return {
+            'group_id': task_group.group_id,
+            'tasks_finished': task_group.tasks_finished,
+        }
+
 
 # Model for an individual task.
 class AbstractCrowdTask(models.Model):
@@ -67,6 +74,19 @@ class AbstractCrowdTask(models.Model):
 
     class Meta:
         abstract = True
+
+    @staticmethod
+    def to_json(task):
+        return {
+            'task_type': task.task_type,
+            'data': task.data,
+            'creation_time': task.create_time,
+            'task_id': task.task_id,
+            'num_assignments': task.num_assignments,
+            'mv_answer': task.mv_answer,
+            'em_answer': task.em_answer,
+            'is_complete': task.is_complete
+        }
 
 
 # Model for workers

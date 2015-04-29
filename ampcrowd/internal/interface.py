@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count, F, Q
 
 from basecrowd.interface import CrowdInterface
-from models import CrowdTask
+from models import CrowdTask, CrowdTaskGroup
 
 SLACK = 2
 ORDER_WEIGHT = 0.3
@@ -63,5 +63,13 @@ class InternalCrowdInterface(CrowdInterface):
 
             # No duplicates
             .distinct())
+
+    @staticmethod
+    def get_task_groups():
+        return CrowdTaskGroup.objects.all()
+
+    @staticmethod
+    def get_tasks():
+        return map(CrowdTask.to_json, CrowdTask.objects.all())
 
 INTERNAL_CROWD_INTERFACE = InternalCrowdInterface('internal')

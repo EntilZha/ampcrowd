@@ -37,7 +37,7 @@ def send_request(data, crowds, num_requests, use_ssl):
     # Send request
     params = {'data' : json.dumps(data)}
     scheme = 'https' if use_ssl else 'http'
-    url = scheme + '://127.0.0.1:8000/crowds/%s/tasks/'
+    url = scheme + '://datascijenkins-0-1.sv2.trulia.com:4040/crowds/%s/tasks/'
     for crowd in crowds:
         for i in range(num_requests):
             try:
@@ -105,11 +105,13 @@ def create_tasks(crowds, task_types, use_ssl):
         data['configuration']['amt'] = {'sandbox' : True}
 
         data['group_id'] = 'test2'
-        data['group_context'] = {'fields' : ['price', 'location']}
+        data['group_context'] = {'fields' : ['company', 'location']}
 
         # This configuration generates one task with two pairs of records.
-        data['content'] = {'pair1' : [['5', 'LA'], ['6', 'Berkeley']],
-                           'pair2' : [['80', 'London'], ['80.0', 'Londyn']]}
+        data['content'] = {'pair1' : [['Zillow Group', 'Seattle'], ['Zillow Group', 'San Francisco']],
+                           'pair2' : [['Trulia', 'San Francisco'], ['Trulia', 'New York']],
+                           'pair3' : [['Trulia', 'San Francisco'], ['Hotpads', 'San Francisco']],
+                           'pair4' : [['Zillow', 'Seattle'], ['Trulia', 'San Francisco']]}
         send_request(data, crowds, num_tasks, use_ssl)
         print "Done!"
 

@@ -101,29 +101,33 @@
 
             <h2 class="sub-header">Crowd Task Groups</h2>
             <script type="text/jsx">
-                var task_groups = [{
-                    group_id: 1,
-                    name: "testing",
-                    crowd: "AMT",
-                    summary_progress: "1/4",
-                    median_task_progress: "1/2",
-                    callback_url: "google.com",
-                    template: "Entity Resolution"
-                }];
-
                 var Rows = React.createClass({
+                    getInitialState: function() {
+                        return {data: []}
+                    },
+                    updateTaskStatus: function() {
+                        $.ajax({
+                            url: 'http://crowd_server:8000/crowds/internal/summary/tasks',
+                            success: function(data) {
+                                this.setState({data: data});
+                            }.bind(this)
+                        });
+                    },
+                    componentDidMount: function() {
+                        this.updateTaskStatus();
+                        setInterval(this.updateTaskStatus, 2000);
+                    },
                     render: function() {
-                        var rows = this.props.data.map(function (row) {
+                        var rows = this.state.data.map(function (row) {
                             return (
                                     <tr>
-                                        <td>{row.group_id}</td>
-                                        <td>{row.name}</td>
-                                        <td>{row.crowd}</td>
-                                        <td>{row.summary_progress}</td>
-                                        <td>{row.median_task_progress}</td>
-                                        <td>{row.callback_url}</td>
-                                        <td>{row.template}</td>
-                                        <td>Link Here</td>
+                                        <td>{row.task_id}</td>
+                                        <td>{row.data}</td>
+                                        <td>{row.is_complete}</td>
+                                        <td>{row.num_assignments}</td>
+                                        <td>{row.mv_answer}</td>
+                                        <td>{row.em_answer}</td>
+                                        <td>{row.task_type}</td>
                                     </tr>
                             );
                         });
@@ -131,13 +135,13 @@
                                 <table className="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Group ID</th>
-                                            <th>Name</th>
-                                            <th>Crowd</th>
-                                            <th>Summary Progress</th>
-                                            <th>Median Task Progress</th>
-                                            <th>Callback URL</th>
-                                            <th>Template</th>
+                                            <th>Task ID</th>
+                                            <th>Data</th>
+                                            <th>Is Complete</th>
+                                            <th>Assignments</th>
+                                            <th>Majority Vote Answer</th>
+                                            <th>EM Answer</th>
+                                            <th>Task Type</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -149,7 +153,7 @@
                     }
                 });
                 React.render(
-                        <Rows data={task_groups} />,
+                        <Rows />,
                         document.getElementById("task_table")
                 );
             </script>

@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponse
 from datetime import datetime
+from jsonview.decorators import json_view
 import pytz
 import json
 import os
@@ -14,6 +15,21 @@ from basecrowd.interface import CrowdRegistry
 from basecrowd.tasks import gather_answer
 
 logger = logging.getLogger('crowd_server')
+
+
+@require_GET
+@json_view
+def get_task_groups(request, crowd_name):
+    interface, model_spec = CrowdRegistry.get_registry_entry(crowd_name)
+    logger.debug(type(interface))
+    logger.debug(type(model_spec))
+    return interface.get_task_groups()
+
+@require_GET
+@json_view
+def get_tasks(request, crowd_name):
+    interface, model_spec = CrowdRegistry.get_registry_entry(crowd_name)
+    return interface.get_tasks()
 
 
 @require_POST
