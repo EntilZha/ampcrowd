@@ -85,7 +85,8 @@ class AbstractCrowdTask(models.Model):
             'num_assignments': task.num_assignments,
             'mv_answer': task.mv_answer,
             'em_answer': task.em_answer,
-            'is_complete': task.is_complete
+            'is_complete': task.is_complete,
+            'completed_assignments': len(task.responses.all())
         }
 
 
