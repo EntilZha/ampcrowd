@@ -1,5 +1,5 @@
 import uuid
-from numpy.random import geometric
+from random import randint
 
 from django.core.urlresolvers import reverse
 from django.db.models import Count, F, Q
@@ -23,8 +23,7 @@ class InternalCrowdInterface(CrowdInterface):
                           .order_by('create_time'))
 
         # Pick a random task, biased towards older tasks.
-        task_index = min(geometric(ORDER_WEIGHT) - 1,
-                         eligible_tasks.count() - 1)
+        task_index = randint(0, eligible_tasks.count() - 1)
 
         # generate a random assignment id for this assignment.
         assignment_id = uuid.uuid4()
