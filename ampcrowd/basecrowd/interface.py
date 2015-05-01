@@ -3,7 +3,7 @@ import uuid
 
 from django.core.urlresolvers import reverse
 
-from models import CrowdModelSpecification
+from basecrowd.abstract_crowd_models import CrowdModelSpecification
 
 
 # Required implementation for a new crowd type

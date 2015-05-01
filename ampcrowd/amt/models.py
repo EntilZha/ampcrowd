@@ -1,8 +1,6 @@
 from django.db import models
-from basecrowd.models import AbstractCrowdTaskGroup
-from basecrowd.models import AbstractCrowdTask
-from basecrowd.models import AbstractCrowdWorker
-from basecrowd.models import AbstractCrowdWorkerResponse
+from basecrowd.abstract_crowd_models import AbstractCrowdTask, AbstractCrowdWorker, AbstractCrowdWorkerResponse, \
+    AbstractCrowdTaskGroup
 
 # Inherited crowd models for the interface.
 # No need for special subclasses, we use the base implementations.

@@ -2,7 +2,7 @@
 
 # Migrate databases if necessary, sleep allows postgres container to finish launching
 sleep 3
-python ampcrowd/manage.py syncdb --noinput
+python ampcrowd/manage.py migrate --noinput
 
 # Generate static content
 python ampcrowd/manage.py collectstatic --noinput

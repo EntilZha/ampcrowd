@@ -21,9 +21,8 @@ logger = logging.getLogger('crowd_server')
 @json_view
 def get_task_groups(request, crowd_name):
     interface, model_spec = CrowdRegistry.get_registry_entry(crowd_name)
-    logger.debug(type(interface))
-    logger.debug(type(model_spec))
     return interface.get_task_groups()
+
 
 @require_GET
 @json_view
