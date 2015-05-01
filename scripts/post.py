@@ -108,10 +108,10 @@ def create_tasks(crowds, task_types, use_ssl):
         data['group_context'] = {'fields' : ['company', 'location']}
 
         # This configuration generates one task with two pairs of records.
-        data['content'] = {'pair1' : [['Zillow Group', 'Seattle'], ['Zillow Group', 'San Francisco']],
-                           'pair2' : [['Trulia', 'San Francisco'], ['Trulia', 'New York']],
-                           'pair3' : [['Trulia', 'San Francisco'], ['Hotpads', 'San Francisco']],
-                           'pair4' : [['Zillow', 'Seattle'], ['Trulia', 'San Francisco']]}
+        data['content'] = {
+                'pair1' : [['5', 'LA'], ['6', 'Berkeley']],
+-               'pair2' : [['80', 'London'], ['80.0', 'Londyn']]
+        }
         send_request(data, crowds, num_tasks, use_ssl)
         print "Done!"
 

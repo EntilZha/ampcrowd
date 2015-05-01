@@ -76,7 +76,7 @@ class AbstractCrowdTask(models.Model):
         abstract = True
 
     @staticmethod
-    def to_json(task):
+    def to_dict(task):
         return {
             'task_type': task.task_type,
             'data': task.data,

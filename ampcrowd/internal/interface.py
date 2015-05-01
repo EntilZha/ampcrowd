@@ -69,6 +69,6 @@ class InternalCrowdInterface(CrowdInterface):
 
     @staticmethod
     def get_tasks():
-        return map(CrowdTask.to_json, CrowdTask.objects.all())
+        return map(CrowdTask.to_dict, CrowdTask.objects.all())
 
 INTERNAL_CROWD_INTERFACE = InternalCrowdInterface('internal')
